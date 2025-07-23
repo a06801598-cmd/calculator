@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz Game - Math</title>
+  <style>
+    :root {
+      --primary: #4e54c8;
+      --secondary: #8f94fb;
+      --danger: #e74c3c;
+      --success: #2ecc71;
+      --light: #f9f9f9;
+      --dark: #333;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: var(--dark);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .quiz-container {
+      background-color: var(--light);
+      border-radius: 20px;
+      padding: 30px 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+      animation: fadeIn 0.8s ease;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: var(--primary);
+    }
+
+    input[type="number"] {
+      padding: 12px;
+      font-size: 18px;
+      border: 2px solid #ddd;
+      border-radius: 12px;
+      width: 100%;
+      text-align: center;
+      margin-bottom: 20px;
+      outline: none;
+    }
+
+    button {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      font-size: 18px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: 0.3s;
+      width: 100%;
+    }
+
+    button:hover {
+      background: var(--secondary);
+    }
+
+    .popup, .overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .overlay {
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 998;
+    }
+
+    .popup {
+      background: var(--light);
+      border-radius: 16px;
+      padding: 15px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    video {
+      width: 100%;
+      border-radius: 12px;
+      background-color: #000;
+    }
+
+    .caption {
+      font-weight: bold;
+      margin: 10px 0;
+      font-size: 18px;
+      color: var(--dark);
+    }
+
+    .close-btn {
+      background: var(--danger);
+      color: #fff;
+      padding: 10px 16px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    footer {
+      margin-top: 30px;
+      color: white;
+      font-size: 12px;
+    }
+
+    @media (max-width: 480px) {
+      h2 {
+        font-size: 20px;
+      }
+      .caption {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="quiz-container">
+    <h2>🧠 What is 1 + 1?</h2>
+    <input type="number" id="answer" placeholder="Enter your answer" autofocus>
+    <button onclick="checkAnswer()">Submit Answer</button>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+
+  <div class="popup" id="resultPopup">
+    <div class="caption" id="captionText">Checking...</div>
+    <video id="resultVideo" controls autoplay playsinline>
+      <source src="" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <button class="close-btn" onclick="closePopup()">Close</button>
+  </div>
+
+  <footer>
+    Made with ❤️ by JCode (Joseph Bravo)
+  </footer>
+
+  <script>
+    const correctVideo = 'https://a06801598-cmd.github.io/mahalmo/video1.mp4';
+    const wrongVideo = 'https://a06801598-cmd.github.io/mahalmo/video2.mp4';
+
+    const overlay = document.getElementById('overlay');
+    const popup = document.getElementById('resultPopup');
+    const video = document.getElementById('resultVideo');
+    const caption = document.getElementById('captionText');
+
+    function checkAnswer() {
+      const input = document.getElementById('answer');
+      const answer = parseInt(input.value);
+
+      if (isNaN(answer)) {
+        alert("⚠️ Please enter a number.");
+        return;
+      }
+
+      if (answer === 2) {
+        video.src = correctVideo;
+        caption.innerText = "✅ Correct! Well done!";
+      } else {
+        video.src = wrongVideo;
+        caption.innerText = "❌ Incorrect. Try again!";
+      }
+
+      overlay.style.display = 'flex';
+      popup.style.display = 'flex';
+      video.play();
+    }
+
+    function closePopup() {
+      popup.style.display = 'none';
+      overlay.style.display = 'none';
+      video.pause();
+      video.currentTime = 0;
+    }
+  </script>
+
+
+</body></html>
